@@ -1,14 +1,17 @@
 package main
 
 import (
-	pizza "pattern/Decorator/Pizza_Decorator"
-	notify "pattern/ObserverPattern/NotifyMe"
+	//pizza "pattern/Decorator/Pizza_Decorator"
+	//notify "pattern/ObserverPattern/NotifyMe"
+	ttt "pattern/TicTacToe"
 )
 
 func main() {
 	// notify me button functionality :- Observer Pattern
-	notify.CallNotifyMe()
+	//notify.CallNotifyMe()
 
 	// pizza decorator function :- Decorator Pattern
-	pizza.CreatePizzaDecorators()
+	//pizza.CreatePizzaDecorators()
+
+	ttt.CallTicTacToe()
 }
