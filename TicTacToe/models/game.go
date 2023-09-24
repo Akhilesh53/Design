@@ -7,22 +7,20 @@ type Game struct {
 	Board   *Board
 }
 
-func InitialiseGame() *Game {
+func InitialiseGame() (*Game, error) {
 	players := []*Player{}
 	piecex, err := GetPlayingPiece("X")
 	if err != nil {
-		fmt.Println(err)
-		return nil
+		return nil,err
 	}
 
 	piecey, err := GetPlayingPiece("O")
 	if err != nil {
-		fmt.Println(err)
-		return nil
+		return nil,err
 	}
 	players = append(players, GetPlayer("Player1", piecex))
 	players = append(players, GetPlayer("Player2", piecey))
-	return &Game{Players: players, Board: InitialiseBoard(3)}
+	return &Game{Players: players, Board: InitialiseBoard(3)},nil
 }
 
 func (g *Game) StartGame() {
@@ -33,7 +31,7 @@ func (g *Game) StartGame() {
         // get the count of vacant places
 		// if none of the place left and no player won, means game tie
 		if g.Board.GetVacantPlaces() == 0{
-			fmt.Println(" Ohh !!! \n Game Tied....")
+			fmt.Println("Ohh !!! \n Game Tied....")
 			gameContinue = false
 			continue
 		}
