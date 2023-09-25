@@ -3,7 +3,8 @@ package main
 import (
 	//pizza "pattern/Decorator/Pizza_Decorator"
 	//notify "pattern/ObserverPattern/NotifyMe"
-	ttt "pattern/TicTacToe"
+	loggersystem "pattern/LoggerSystem"
+	//ttt "pattern/TicTacToe"
 )
 
 func main() {
@@ -13,5 +14,9 @@ func main() {
 	// pizza decorator function :- Decorator Pattern
 	//pizza.CreatePizzaDecorators()
 
-	ttt.CallTicTacToe()
+	// Tic Tac Toe LLD
+	//ttt.CallTicTacToe()
+
+	// Logger System :- Chain of Responsibility
+	loggersystem.CallLogger()
 }
