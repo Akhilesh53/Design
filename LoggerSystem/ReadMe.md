@@ -22,7 +22,7 @@ Now we got the objects
 - Application
 - Logger
 - LogTypes
-- Sink
+- Sink (Where the logs should be printed)
 
 -------------------------------------------
 Now relate these objects to some design pattern.
@@ -34,6 +34,10 @@ Now relate these objects to some design pattern.
 2) Log Types: the functionality is whatsoever log level is coming that log type object should print the statement.
    Means once we will call the func, we don't care which handler is handling our request. They are following a chain.
    If log level is not info, check for error, if not error then check for debug.
+
+3) Sink Types: the functionality is where so ever log type is defined to dump in, dump the logs there. 
+   Means, sink types are observing if some level assigned to them comes, take that log and dump it.
+   Folowing Observer pattern.
 
 
 -----------------------------------
@@ -58,7 +62,12 @@ Association: **Logger -> HAS -> LogTypes**
    - GetLevel() string
    - SetLevel(level LogType)
    - LogMessage(logType LogType, msg string)
+   - AddSinkObserver(ISinkObserver)
+	- RemoveSinkObserver(ISinkObserver)
+	- NotifyInkObservers(mssg string)
 
+Log handlers will also work as observables for sink observers. Whenever a log comes in, observable will notify
+observers to dump the log
 ---------------------------------
 - **Concrete Classes:**
 ---------------------------------
@@ -67,9 +76,8 @@ Association: **INFO/ DEBUG/ ERROR -> IS A -> LOG TYPE**
    - DebugHandler{}  
    - ErrorHandler{}
 
-
-  
-
-
+---------------------------------
+**Sink Types**
+---------------------------------
 
 

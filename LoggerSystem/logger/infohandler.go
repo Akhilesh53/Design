@@ -45,11 +45,11 @@ func (h *InfoHandler) LogMessage(logType LogType, msg string) {
 	}
 }
 
-func (i *InfoHandler) AddObserver(observer ISinkObserver) {
+func (i *InfoHandler) AddSinkObserver(observer ISinkObserver) {
 	i.infoObservers = append(i.infoObservers, observer)
 }
 
-func (i *InfoHandler) RemoveObserver(observer ISinkObserver) {
+func (i *InfoHandler) RemoveSinkObserver(observer ISinkObserver) {
 	i.infoObservers = append(i.infoObservers, observer)
 	newList := []ISinkObserver{}
 
@@ -61,7 +61,7 @@ func (i *InfoHandler) RemoveObserver(observer ISinkObserver) {
 	i.infoObservers = newList
 }
 
-func (i *InfoHandler) Notify(mssg string) {
+func (i *InfoHandler) NotifyInkObservers(mssg string) {
 	for _, obs := range i.infoObservers {
 		obs.Update(mssg)
 	}

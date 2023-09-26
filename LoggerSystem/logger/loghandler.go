@@ -11,9 +11,9 @@ type ILogHandler interface {
 	SetLevel(level LogType)
 	LogMessage(logType LogType, msg string)
 
-	AddObserver(ISinkObserver)
-	RemoveObserver(ISinkObserver)
-	Notify(mssg string)
+	AddSinkObserver(ISinkObserver)
+	RemoveSinkObserver(ISinkObserver)
+	NotifyInkObservers(mssg string)
 }
 
 func GetLogHandler(logType LogType, next ILogHandler) (ILogHandler, error) {
@@ -27,7 +27,7 @@ func GetLogHandler(logType LogType, next ILogHandler) (ILogHandler, error) {
 
 func displayMessage(h ILogHandler, msg string) {
 	//fmt.Println(h.GetLevel(), " ", msg)
-	h.Notify(msg)
+	h.NotifyInkObservers(msg)
 }
 
 func doChaining() ILogHandler {
@@ -38,12 +38,12 @@ func doChaining() ILogHandler {
 	fileObserver := getFileObserver()
 	consoleObserver := getConsoleObserver()
 
-	infoHandler.AddObserver(fileObserver)
-	infoHandler.AddObserver(consoleObserver)
+	infoHandler.AddSinkObserver(fileObserver)
+	infoHandler.AddSinkObserver(consoleObserver)
 
-	errorHandler.AddObserver(fileObserver)
+	errorHandler.AddSinkObserver(fileObserver)
 
-	debugHandler.AddObserver(consoleObserver)
+	debugHandler.AddSinkObserver(consoleObserver)
 	infoHandler.SetNext(errorHandler)
 	errorHandler.SetNext(debugHandler)
 	debugHandler.SetNext(nil)

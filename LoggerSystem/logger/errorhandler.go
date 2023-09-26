@@ -45,11 +45,11 @@ func (h *ErrorHandler) LogMessage(logType LogType, msg string) {
 	}
 }
 
-func (i *ErrorHandler) AddObserver(observer ISinkObserver) {
+func (i *ErrorHandler) AddSinkObserver(observer ISinkObserver) {
 	i.errorObservers = append(i.errorObservers, observer)
 }
 
-func (i *ErrorHandler) RemoveObserver(observer ISinkObserver) {
+func (i *ErrorHandler) RemoveSinkObserver(observer ISinkObserver) {
 	i.errorObservers = append(i.errorObservers, observer)
 	newList := []ISinkObserver{}
 
@@ -61,7 +61,7 @@ func (i *ErrorHandler) RemoveObserver(observer ISinkObserver) {
 	i.errorObservers = newList
 }
 
-func (i *ErrorHandler) Notify(mssg string) {
+func (i *ErrorHandler) NotifyInkObservers(mssg string) {
 	for _, obs := range i.errorObservers {
 		obs.Update(mssg)
 	}
