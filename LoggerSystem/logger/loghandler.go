@@ -2,7 +2,6 @@ package logger
 
 import (
 	"errors"
-	"fmt"
 )
 
 type ILogHandler interface {
@@ -11,6 +10,10 @@ type ILogHandler interface {
 	GetLevel() string
 	SetLevel(level LogType)
 	LogMessage(logType LogType, msg string)
+
+	AddObserver(ISinkObserver)
+	RemoveObserver(ISinkObserver)
+	Notify(mssg string)
 }
 
 func GetLogHandler(logType LogType, next ILogHandler) (ILogHandler, error) {
@@ -22,16 +25,25 @@ func GetLogHandler(logType LogType, next ILogHandler) (ILogHandler, error) {
 	}
 }
 
-
 func displayMessage(h ILogHandler, msg string) {
-	fmt.Println(h.GetLevel(), " ", msg)
+	//fmt.Println(h.GetLevel(), " ", msg)
+	h.Notify(msg)
 }
 
-func doChaning() ILogHandler {
+func doChaining() ILogHandler {
 	infoHandler := getDefaultInfoLogHandler()
 	errorHandler := getDefaultErrorLogHandler()
 	debugHandler := getDefaultDebugLogHandler()
 
+	fileObserver := getFileObserver()
+	consoleObserver := getConsoleObserver()
+
+	infoHandler.AddObserver(fileObserver)
+	infoHandler.AddObserver(consoleObserver)
+
+	errorHandler.AddObserver(fileObserver)
+
+	debugHandler.AddObserver(consoleObserver)
 	infoHandler.SetNext(errorHandler)
 	errorHandler.SetNext(debugHandler)
 	debugHandler.SetNext(nil)

@@ -1,45 +1,68 @@
 package logger
 
 type ErrorHandler struct {
-	Level LogType
-	Next  ILogHandler
+	level          LogType
+	next           ILogHandler
+	errorObservers []ISinkObserver
 }
 
 func getErrorLogHandler(next ILogHandler) *ErrorHandler {
 	return &ErrorHandler{
-		Level: ERROR,
-		Next:  next,
+		level: ERROR,
+		next:  next,
 	}
 }
 
 func getDefaultErrorLogHandler() *ErrorHandler {
 	return &ErrorHandler{
-		Level: ERROR,
+		level: ERROR,
 	}
 }
 
 func (h *ErrorHandler) SetLevel(level LogType) {
-	h.Level = level
+	h.level = level
 }
 
 func (h *ErrorHandler) SetNext(next ILogHandler) {
-	h.Next = next
+	h.next = next
 }
 
 func (h *ErrorHandler) GetLevel() string {
-	return h.Level.String()
+	return h.level.String()
 }
 
 func (h *ErrorHandler) GetNext() ILogHandler {
-	return h.Next
+	return h.next
 }
 
 func (h *ErrorHandler) LogMessage(logType LogType, msg string) {
-	if h.Level == logType {
+	if h.level == logType {
 		displayMessage(h, msg)
 		return
 	}
 	if h.GetNext() != nil {
 		h.GetNext().LogMessage(logType, msg)
+	}
+}
+
+func (i *ErrorHandler) AddObserver(observer ISinkObserver) {
+	i.errorObservers = append(i.errorObservers, observer)
+}
+
+func (i *ErrorHandler) RemoveObserver(observer ISinkObserver) {
+	i.errorObservers = append(i.errorObservers, observer)
+	newList := []ISinkObserver{}
+
+	for _, obs := range i.errorObservers {
+		if obs != observer {
+			newList = append(newList, obs)
+		}
+	}
+	i.errorObservers = newList
+}
+
+func (i *ErrorHandler) Notify(mssg string) {
+	for _, obs := range i.errorObservers {
+		obs.Update(mssg)
 	}
 }

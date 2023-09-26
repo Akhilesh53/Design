@@ -22,7 +22,7 @@ func GetLoggerInstance() (*Logger, error) {
 		mu.Lock()
 		defer mu.Unlock()
 		LoggerInstance = &Logger{
-			LogHandler: doChaning(),
+			LogHandler: doChaining(),
 		}
 		return LoggerInstance, nil
 	}

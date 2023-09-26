@@ -1,45 +1,68 @@
 package logger
 
 type InfoHandler struct {
-	Level LogType
-	Next  ILogHandler
+	level         LogType
+	next          ILogHandler
+	infoObservers []ISinkObserver
 }
 
 func getInfoLogHandler(next ILogHandler) *InfoHandler {
 	return &InfoHandler{
-		Level: INFO,
-		Next:  next,
+		level: INFO,
+		next:  next,
 	}
 }
 
 func getDefaultInfoLogHandler() *InfoHandler {
 	return &InfoHandler{
-		Level: INFO,
+		level: INFO,
 	}
 }
 
 func (h *InfoHandler) SetLevel(level LogType) {
-	h.Level = level
+	h.level = level
 }
 
 func (h *InfoHandler) SetNext(next ILogHandler) {
-	h.Next = next
+	h.next = next
 }
 
 func (h *InfoHandler) GetLevel() string {
-	return h.Level.String()
+	return h.level.String()
 }
 
 func (h *InfoHandler) GetNext() ILogHandler {
-	return h.Next
+	return h.next
 }
 
 func (h *InfoHandler) LogMessage(logType LogType, msg string) {
-	if h.Level == logType {
+	if h.level == logType {
 		displayMessage(h, msg)
 		return
 	}
 	if h.GetNext() != nil {
 		h.GetNext().LogMessage(logType, msg)
+	}
+}
+
+func (i *InfoHandler) AddObserver(observer ISinkObserver) {
+	i.infoObservers = append(i.infoObservers, observer)
+}
+
+func (i *InfoHandler) RemoveObserver(observer ISinkObserver) {
+	i.infoObservers = append(i.infoObservers, observer)
+	newList := []ISinkObserver{}
+
+	for _, obs := range i.infoObservers {
+		if obs != observer {
+			newList = append(newList, obs)
+		}
+	}
+	i.infoObservers = newList
+}
+
+func (i *InfoHandler) Notify(mssg string) {
+	for _, obs := range i.infoObservers {
+		obs.Update(mssg)
 	}
 }
