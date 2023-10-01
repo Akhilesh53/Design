@@ -3,7 +3,8 @@ package main
 import (
 	//pizza "pattern/Decorator/Pizza_Decorator"
 	//notify "pattern/ObserverPattern/NotifyMe"
-	loggersystem "pattern/LoggerSystem"
+	//loggersystem "pattern/LoggerSystem"
+	employeeexample "pattern/ProxyPattern/EmployeeExample"
 	//ttt "pattern/TicTacToe"
 )
 
@@ -18,5 +19,7 @@ func main() {
 	//ttt.CallTicTacToe()
 
 	// Logger System :- Chain of Responsibility
-	loggersystem.CallLogger()
+	//loggersystem.CallLogger()
+
+	employeeexample.CallProxyPattern()
 }
