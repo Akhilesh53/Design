@@ -3,16 +3,16 @@ package models
 type IMovie interface {
 	GetMovieName() string
 	SetMovieName(string) IMovie
-	GetMovieCast() []string            //todo: change to caat
-	SetMovieCast([]string) IMovie      //todo: change to caat
-	GetMovieLanguages() []string       //todo: change to language
-	SetMovieLanguages([]string) IMovie //todo: change to language
+	GetMovieCast() []IActor
+	SetMovieCast([]IActor) IMovie
+	GetMovieLanguages() []Language
+	SetMovieLanguages([]Language) IMovie
 }
 
 type Movie struct {
 	movieName      string
-	movieCast      []string //todo: change to cast
-	movieLanguages []string //todo: change to language
+	movieCast      []IActor
+	movieLanguages []Language
 }
 
 func (m *Movie) GetMovieName() string {
@@ -22,21 +22,20 @@ func (m *Movie) SetMovieName(name string) IMovie {
 	m.movieName = name
 	return m
 }
-func (m *Movie) GetMovieCast() []string {
+func (m *Movie) GetMovieCast() []IActor {
 	return m.movieCast
-} //todo: change to caat
+}
 
-func (m *Movie) SetMovieCast(cast []string) IMovie {
+func (m *Movie) SetMovieCast(cast []IActor) IMovie {
 	m.movieCast = cast
 	return m
-} //todo: change to caat
+}
 
-func (m *Movie) GetMovieLanguages() []string { //todo: change to language
+func (m *Movie) GetMovieLanguages() []Language {
 	return m.movieLanguages
 }
 
-func (m *Movie) SetMovieLanguages(languages []string) IMovie {
+func (m *Movie) SetMovieLanguages(languages []Language) IMovie {
 	m.movieLanguages = languages
 	return m
-	//todo: change to language
 }

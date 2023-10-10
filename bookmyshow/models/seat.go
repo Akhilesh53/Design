@@ -13,7 +13,7 @@ type ISeat interface {
 
 type Seat struct {
 	seatRow    string
-	seatNumber string
+	seatColumn string
 	seatType   SeatType
 }
 
@@ -36,10 +36,10 @@ func (s *Seat) SetSeatRow(row string) ISeat {
 }
 
 func (s *Seat) GetSeatNumber() string {
-	return s.seatNumber
+	return s.seatColumn
 }
 
 func (s *Seat) SetSeatNumber(number string) ISeat {
-	s.seatNumber = number
+	s.seatColumn = number
 	return s
 }
