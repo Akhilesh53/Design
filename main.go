@@ -1,10 +1,7 @@
 package main
 
 import (
-	//pizza "pattern/Decorator/Pizza_Decorator"
-	//notify "pattern/ObserverPattern/NotifyMe"
-	//loggersystem "pattern/LoggerSystem"
-	employeeexample "pattern/ProxyPattern/EmployeeExample"
+	vendingmachine "pattern/VendingMachine"
 	//ttt "pattern/TicTacToe"
 )
 
@@ -21,5 +18,8 @@ func main() {
 	// Logger System :- Chain of Responsibility
 	//loggersystem.CallLogger()
 
-	employeeexample.CallProxyPattern()
+	//employeeexample.CallProxyPattern()
+
+	// Vending Machine :- state design pattern
+	vendingmachine.CallVendingMachine()
 }

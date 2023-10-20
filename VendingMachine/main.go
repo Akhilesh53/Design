@@ -1,4 +1,4 @@
-package main
+package vendingmachine
 
 import (
 	"fmt"
@@ -7,11 +7,7 @@ import (
 	"pattern/VendingMachine/structs"
 )
 
-func init() {
-
-}
-
-func main() {
+func CallVendingMachine() {
 
 	// fmt.Println("\nTest for less amount \n==================================")
 	// fmt.Println("\nInventory details before")
