@@ -1,0 +1,76 @@
+Walet System
+========================
+Requirements
+========================
+1) This is a simple wallet system that allows user to 
+   - create a wallet (account), 
+   - deposit money, 
+   - withdraw money  
+   - transfer money to another wallet.
+2) system should handle concurrent transactions.
+3) User can fetch details of his/ her account.
+4) User can fetch previoius transactions of his/ her account.
+5) Only authorised users are allowed to access the system.
+
+
+Entities
+=========================
+1) User
+2) Wallet
+3) Transaction
+
+User{
+   name
+   id
+}
+
+Wallet{
+   id
+   balance
+   user_id
+   list<Transaction>
+}
+
+Transaction{
+   id
+   amount
+   type
+   from_wallet_id
+   to_wallet_id
+   timestamp
+}
+
+
+- To generate the walet id  we will create utility class
+AccountNumberGenerator{
+   generateAccountNumber()
+}
+
+- To generate the transaction id we will create utility class
+TransactionIdGenerator{
+   generateTransactionId()
+}
+
+
+
+Entity Relationship Diagram
+===========================
+
+User - has - Wallet (1-1 Relationship)
+Wallet - has - Transaction (1-M Relationship)
+
+
+APIs
+===========================
+1) Create User(POST, username and userid)
+2) Create Wallet(POST, userid)
+3) Deposit Money(POST, walletid, amount)
+4) Withdraw Money(POST, walletid, amount)
+5) Transfer Money(POST, from_walletid, to_walletid, amount)
+6) Get Wallet Details(GET, walletid)
+7) Get Transaction Details(GET, transactionid)
+8) Get User Details(GET, userid)
+9) Get User Transactions(GET, userid)
+
+
+
