@@ -10,6 +10,7 @@ type IGroup interface {
 	GetDescription() string
 	GetCreatedBy() IUser
 	GetCreatedAt() time.Time
+	GetLastModified() time.Time
 	SetId(int) IGroup
 	SetName(string) IGroup
 	SetParticipants([]IUser) IGroup
@@ -17,6 +18,7 @@ type IGroup interface {
 	SetDescription(string) IGroup
 	SetCreatedBy(IUser) IGroup
 	SetCreatedAt(time.Time) IGroup
+	SetLastModified(time.Time) IGroup
 }
 
 type group struct {
@@ -28,6 +30,7 @@ type group struct {
 	expenses     []IExpense
 	createdBy    IUser
 	createdAt    time.Time
+	lastModified time.Time
 }
 
 func NewGroup(id int, name string, description string, createdBy IUser) IGroup {
@@ -103,5 +106,14 @@ func (g *group) SetCreatedBy(createdBy IUser) IGroup {
 
 func (g *group) SetCreatedAt(createdAt time.Time) IGroup {
 	g.createdAt = createdAt
+	return g
+}
+
+func (g *group) GetLastModified() time.Time {
+	return g.lastModified
+}
+
+func (g *group) SetLastModified(lastModified time.Time) IGroup {
+	g.lastModified = lastModified
 	return g
 }
