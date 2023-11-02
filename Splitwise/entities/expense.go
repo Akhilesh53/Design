@@ -36,11 +36,12 @@ type expense struct {
 
 func NewExpense(id int, description string, amount float64, createdBy IUser) IExpense {
 	return &expense{
-		id:          id,
-		description: description,
-		amount:      amount,
-		createdAt:   time.Now(),
-		createdBy:   createdBy,
+		id:           id,
+		description:  description,
+		amount:       amount,
+		createdAt:    time.Now(),
+		createdBy:    createdBy,
+		lastModified: time.Now(),
 	}
 }
 
@@ -66,26 +67,31 @@ func (e *expense) GetCreatedBy() IUser {
 
 func (e *expense) SetId(id int) IExpense {
 	e.id = id
+	e.lastModified = time.Now()
 	return e
 }
 
 func (e *expense) SetDescription(description string) IExpense {
 	e.description = description
+	e.lastModified = time.Now()
 	return e
 }
 
 func (e *expense) SetAmount(amount float64) IExpense {
 	e.amount = amount
+	e.lastModified = time.Now()
 	return e
 }
 
 func (e *expense) SetCreatedAt(createdAt time.Time) IExpense {
 	e.createdAt = createdAt
+	e.lastModified = time.Now()
 	return e
 }
 
 func (e *expense) SetCreatedBy(createdBy IUser) IExpense {
 	e.createdBy = createdBy
+	e.lastModified = time.Now()
 	return e
 }
 
@@ -95,6 +101,7 @@ func (e *expense) GetExpenseCurrency() Currency {
 
 func (e *expense) SetExpenseCurrency(currency Currency) IExpense {
 	e.currency = currency
+	e.lastModified = time.Now()
 	return e
 }
 
@@ -104,11 +111,13 @@ func (e *expense) GetExpenseParticipants() []IUser {
 
 func (e *expense) SetExpenseParticipants(users []IUser) IExpense {
 	e.participants = users
+	e.lastModified = time.Now()
 	return e
 }
 
 func (e *expense) AddExpenseParticipant(user IUser) IExpense {
 	e.participants = append(e.participants, user)
+	e.lastModified = time.Now()
 	return e
 }
 
@@ -119,6 +128,7 @@ func (e *expense) RemoveExpenseParticipant(user IUser) IExpense {
 			break
 		}
 	}
+	e.lastModified = time.Now()
 	return e
 }
 
