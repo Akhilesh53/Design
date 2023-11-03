@@ -1,6 +1,8 @@
 package registry
 
-import "pattern/Splitwise/cmds"
+import (
+	"pattern/Splitwise/cmds"
+)
 
 type ICommandRegistry interface {
 	AddCommand(command cmds.ICommmand)
@@ -49,7 +51,7 @@ func (cr *commandRegistry) GetAllCommands() []cmds.ICommmand {
 func (cr *commandRegistry) ExecuteCommand(inputCommand string) {
 	for _, command := range cr.commands {
 		if command.Parse(inputCommand) {
-			command.Execute()
+			command.Execute(inputCommand)
 			break
 		}
 	}

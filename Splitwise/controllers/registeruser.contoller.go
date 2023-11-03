@@ -6,14 +6,17 @@ import (
 )
 
 type IUserContoller interface {
+	RegisterUser(req dtos.RegisterUserRequestDto) *dtos.RegisterUserResponseDto
 }
 
 type userContoller struct {
-	userservice services.UserService // for controllers to work, it need an instance of service
+	userservice *services.UserService // for controllers to work, it need an instance of service
 }
 
 func NewUserContoller() IUserContoller {
-	return &userContoller{}
+	return &userContoller{
+		userservice: services.NewUserService(),
+	}
 }
 
 func (uc *userContoller) RegisterUser(req dtos.RegisterUserRequestDto) *dtos.RegisterUserResponseDto {

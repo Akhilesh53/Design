@@ -2,23 +2,31 @@ package cmds
 
 import (
 	"fmt"
+	"pattern/Splitwise/controllers"
+	"pattern/Splitwise/dtos"
 	"strings"
 )
 
-type userRegisterCoomand struct {
+type userRegisterCommand struct {
+	userContoller controllers.IUserContoller
 }
 
 func NewUserRegisterCommand() ICommmand {
-	return &userRegisterCoomand{}
+	return &userRegisterCommand{
+		userContoller: controllers.NewUserContoller(),
+	}
 }
 
-func (urc *userRegisterCoomand) Execute() {
-	fmt.Println("User Register Command Executed")
-	//todo: add respective func to execute
+func (urc *userRegisterCommand) Execute(inputCommand string) {
+	commandTokens := strings.Split(inputCommand, " ")
+	requestDto := dtos.NewRegisterUserRequestDto(commandTokens[1], commandTokens[2], commandTokens[3])
+	response := urc.userContoller.RegisterUser(*requestDto)
+
+	fmt.Println("User Registered Successfully", response.GetUser().GetName(), response.GetUser().GetId())
 }
 
 // Example: RegisterUser <name> <phone number> <password>
-func (urc *userRegisterCoomand) Parse(command string) bool {
+func (urc *userRegisterCommand) Parse(command string) bool {
 	commandTokens := strings.Split(command, " ")
 	if len(commandTokens) != 4 ||
 		!strings.EqualFold(commandTokens[0], USER_REGISTER_COMMAND) ||
