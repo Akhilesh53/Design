@@ -5,16 +5,28 @@ import (
 	"pattern/Splitwise/controllers"
 	"pattern/Splitwise/dtos"
 	"strings"
+	"sync"
 )
 
 type userRegisterCommand struct {
 	userContoller controllers.IUserContoller
 }
 
+var once sync.Once
+var userContoller controllers.IUserContoller
+var userRegisterCommandInstance ICommmand
+
+func init() {
+	userContoller = controllers.NewUserContoller()
+}
+
 func NewUserRegisterCommand() ICommmand {
-	return &userRegisterCommand{
-		userContoller: controllers.NewUserContoller(),
-	}
+	once.Do(func() {
+		userRegisterCommandInstance = &userRegisterCommand{
+			userContoller: userContoller,
+		}
+	})
+	return userRegisterCommandInstance
 }
 
 func (urc *userRegisterCommand) Execute(inputCommand string) {

@@ -3,10 +3,15 @@ package controllers
 import (
 	"pattern/Splitwise/dtos"
 	"pattern/Splitwise/services"
+	"sync"
 )
 
-type IUserContoller interface {
-	RegisterUser(req dtos.RegisterUserRequestDto) *dtos.RegisterUserResponseDto
+var once sync.Once
+var userService *services.UserService
+var userContollerInstance IUserContoller
+
+func init() {
+	userService = services.NewUserService()
 }
 
 type userContoller struct {
@@ -14,9 +19,12 @@ type userContoller struct {
 }
 
 func NewUserContoller() IUserContoller {
-	return &userContoller{
-		userservice: services.NewUserService(),
-	}
+	once.Do(func() {
+		userContollerInstance = &userContoller{
+			userservice: userService,
+		}
+	})
+	return userContollerInstance
 }
 
 func (uc *userContoller) RegisterUser(req dtos.RegisterUserRequestDto) *dtos.RegisterUserResponseDto {
