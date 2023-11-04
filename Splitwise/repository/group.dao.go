@@ -7,6 +7,7 @@ import (
 
 type GroupRepository interface {
 	CreateGroup(group entities.IGroup) entities.IGroup
+	GetGroup(id int) (entities.IGroup, error)
 }
 
 type groupRepository struct {

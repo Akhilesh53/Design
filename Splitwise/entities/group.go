@@ -14,6 +14,7 @@ type IGroup interface {
 	SetId(int) IGroup
 	SetName(string) IGroup
 	SetParticipants([]IUser) IGroup
+	AddParticipant(user IUser) IGroup
 	SetExpenses([]IExpense) IGroup
 	SetDescription(string) IGroup
 	SetCreatedBy(IUser) IGroup
@@ -124,5 +125,10 @@ func (g *group) GetLastModified() time.Time {
 
 func (g *group) SetLastModified(lastModified time.Time) IGroup {
 	g.lastModified = lastModified
+	return g
+}
+
+func (g *group) AddParticipant(user IUser) IGroup {
+	g.participants = append(g.participants, user)
 	return g
 }

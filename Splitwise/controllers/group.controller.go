@@ -47,5 +47,29 @@ func (gc *groupController) AddGroup(req *dtos.AddGroupRequestDto) *dtos.AddGroup
 	}
 	group := gc.groupService.CreateGroup(gc.groupIdGenerator(), req.GetName(), req.GetDescription(), user)
 	return dtos.NewAddGroupResponseDtoWithGroup(group)
+}
 
+func (gc *groupController) AddMember(req *dtos.AddMemberGroupRequestDto) *dtos.AddGroupResponseDto {
+	//adminUserId, _ := strconv.Atoi(req.GetAdminUserId())
+	groupId, _ := strconv.Atoi(req.GetGroupId())
+	userIdToBeAdded, _ := strconv.Atoi(req.GetUserIdToBeAdded())
+
+	//todo:
+	//check admin user is actually admin of group
+
+	group, err := groupService.GetGroup(groupId)
+	if err != nil {
+		return dtos.NewAddGroupResponseDto().SetErr(err)
+	}
+
+	userToBeAdded, err := userService.GetUser(userIdToBeAdded)
+	if err != nil {
+		return dtos.NewAddGroupResponseDto().SetErr(err)
+	}
+
+	resGroup, err := gc.groupService.AddMember(group, userToBeAdded)
+	if err != nil {
+		return dtos.NewAddGroupResponseDto().SetErr(err)
+	}
+	return dtos.NewAddGroupResponseDtoWithGroup(resGroup)
 }

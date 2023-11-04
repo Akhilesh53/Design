@@ -3,6 +3,7 @@ package cmds
 import (
 	"fmt"
 	"pattern/Splitwise/controllers"
+	"pattern/Splitwise/dtos"
 	"strings"
 	"sync"
 )
@@ -24,7 +25,16 @@ func NewAddMemberGroupCommand() ICommmand {
 }
 
 func (cmd *AddMemberGroupCommand) Execute(command string) {
-	fmt.Println("AddMemberGroupCommand called")
+	commandTokens := strings.Split(command, " ")
+
+	addMemberGroupRequestDto := dtos.NewAddMemberGroupRequestDto().SetAdminUserId(commandTokens[0]).SetUserIdToBeAdded(commandTokens[2]).SetGroupId(commandTokens[3])
+
+	response := cmd.groupController.AddMember(addMemberGroupRequestDto)
+	if response.GetErr() != nil {
+		fmt.Println(response.GetErr())
+		return
+	}
+	fmt.Println("User added to group successfully", response.GetGroup().GetName(), len(response.GetGroup().GetParticipants()))
 }
 
 // <userid_whoisadding> AddUser <userid_tobeadded> <groupid>

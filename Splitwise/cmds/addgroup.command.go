@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"pattern/Splitwise/controllers"
 	"pattern/Splitwise/dtos"
+	"strconv"
 	"strings"
 	"sync"
 )
@@ -38,7 +39,10 @@ func (agc *addGroupCommand) Execute(inputCommand string) {
 		fmt.Println(response.GetErr())
 		return
 	}
-	fmt.Println("Added Group Name: ", response.GetGroup().GetName(), response.GetGroup().GetCreatedBy())
+	addMemberGroupRequestDto := dtos.NewAddMemberGroupRequestDto().SetAdminUserId(commandTokens[0]).SetUserIdToBeAdded(commandTokens[0]).SetGroupId(strconv.Itoa(response.GetGroup().GetId()))
+	response = agc.groupContoller.AddMember(addMemberGroupRequestDto)
+
+	fmt.Println("Added Group Name: ", response.GetGroup().GetName(), response.GetGroup().GetCreatedBy(), response.GetGroup().GetId())
 }
 
 // Example: userid AddGroup <groupname> <description>
