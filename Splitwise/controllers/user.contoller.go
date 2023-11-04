@@ -3,6 +3,7 @@ package controllers
 import (
 	"pattern/Splitwise/dtos"
 	"pattern/Splitwise/services"
+	"strconv"
 	"sync"
 )
 
@@ -29,5 +30,14 @@ func NewUserContoller() IUserContoller {
 
 func (uc *userContoller) RegisterUser(req dtos.RegisterUserRequestDto) *dtos.RegisterUserResponseDto {
 	user := uc.userservice.RegisterUser(101, req.GetName(), req.GetPassword(), req.GetPhone())
+	return dtos.NewRegisterUserResponseDtoWithUser(user)
+}
+
+func (uc *userContoller) UpdateUser(req *dtos.UpdateUserRequestDto) *dtos.RegisterUserResponseDto {
+	userId, _ := strconv.Atoi(req.GetUserId())
+	user, err := uc.userservice.UpdateUser(userId, req.GetUserPaasword())
+	if err != nil {
+		return dtos.NewRegisterUserResponseDto().SetErr(err)
+	}
 	return dtos.NewRegisterUserResponseDtoWithUser(user)
 }

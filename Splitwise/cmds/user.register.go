@@ -12,7 +12,7 @@ type userRegisterCommand struct {
 	userContoller controllers.IUserContoller
 }
 
-var once sync.Once
+var userRegisteredOnce sync.Once
 var userContoller controllers.IUserContoller
 var userRegisterCommandInstance ICommmand
 
@@ -21,7 +21,7 @@ func init() {
 }
 
 func NewUserRegisterCommand() ICommmand {
-	once.Do(func() {
+	userRegisteredOnce.Do(func() {
 		userRegisterCommandInstance = &userRegisterCommand{
 			userContoller: userContoller,
 		}
@@ -34,7 +34,7 @@ func (urc *userRegisterCommand) Execute(inputCommand string) {
 	requestDto := dtos.NewRegisterUserRequestDto(commandTokens[1], commandTokens[2], commandTokens[3])
 	response := urc.userContoller.RegisterUser(*requestDto)
 
-	fmt.Println("User Registered Successfully", response.GetUser().GetName(), response.GetUser().GetId())
+	fmt.Println("User Registered Successfully", response.GetUser().GetName(), response.GetUser().GetId(), response.GetUser().GetPassword())
 }
 
 // Example: RegisterUser <name> <phone number> <password>
@@ -45,8 +45,6 @@ func (urc *userRegisterCommand) Parse(command string) bool {
 		len(commandTokens[1]) == 0 ||
 		len(commandTokens[2]) == 0 ||
 		len(commandTokens[3]) == 0 {
-
-		fmt.Println("Invalid Command")
 		return false
 	}
 
