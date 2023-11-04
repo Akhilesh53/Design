@@ -13,16 +13,21 @@ func main() {
 	commadndsRegistry.AddCommand(cmds.NewUserRegisterCommand())
 	commadndsRegistry.AddCommand(cmds.NewUpdateUserCommand())
 	commadndsRegistry.AddCommand(cmds.NewAddGroupCommand())
+	commadndsRegistry.AddCommand(cmds.NewAddMemberGroupCommand())
 
 	// RegisterUser <name> <phone> <password>
 	var input string = "RegisterUser Akhilesh 9906877909 Akhilesh@123"
 	commadndsRegistry.ExecuteCommand(input)
 
 	// <userid> UpdateUser <password>
-	input = "101 UpdateUser Akhilesh"
+	input = "1 UpdateUser Akhilesh"
 	commadndsRegistry.ExecuteCommand(input)
 
 	// <userid> AddGroup <groupname> <description>
-	input = "101 AddGroup GoaTrip GoaTripExpenses"
+	input = "1 AddGroup GoaTrip GoaTripExpenses"
+	commadndsRegistry.ExecuteCommand(input)
+
+	// <userid_whoisadding> AddUser <userid_tobeadded> <groupid>
+	input = "101 AddMember 102 GoaTrip"
 	commadndsRegistry.ExecuteCommand(input)
 }

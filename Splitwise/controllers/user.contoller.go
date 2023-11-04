@@ -15,21 +15,32 @@ func init() {
 	userService = services.NewUserService()
 }
 
+func generateUserId() func() int {
+	id := 0
+
+	return func() int {
+		id++
+		return id
+	}
+}
+
 type userContoller struct {
-	userservice *services.UserService // for controllers to work, it need an instance of service
+	userservice     *services.UserService // for controllers to work, it need an instance of service
+	userIdGenerator func() int
 }
 
 func NewUserContoller() IUserContoller {
 	once.Do(func() {
 		userContollerInstance = &userContoller{
-			userservice: userService,
+			userservice:     userService,
+			userIdGenerator: generateUserId(),
 		}
 	})
 	return userContollerInstance
 }
 
 func (uc *userContoller) RegisterUser(req dtos.RegisterUserRequestDto) *dtos.RegisterUserResponseDto {
-	user := uc.userservice.RegisterUser(101, req.GetName(), req.GetPassword(), req.GetPhone())
+	user := uc.userservice.RegisterUser(uc.userIdGenerator(), req.GetName(), req.GetPassword(), req.GetPhone())
 	return dtos.NewRegisterUserResponseDtoWithUser(user)
 }
 

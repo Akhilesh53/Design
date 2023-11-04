@@ -8,7 +8,8 @@ import (
 )
 
 type groupController struct {
-	groupService *services.GroupService
+	groupService     *services.GroupService
+	groupIdGenerator func() int
 }
 
 var groupService *services.GroupService
@@ -19,10 +20,20 @@ func init() {
 	groupService = services.NewGroupService()
 }
 
+func generateGroupId() func() int {
+	id := 0
+
+	return func() int {
+		id++
+		return id
+	}
+}
+
 func NewGroupController() IGroupController {
 	groupControllerOnce.Do(func() {
 		groupControllerInstance = &groupController{
-			groupService: groupService,
+			groupService:     groupService,
+			groupIdGenerator: generateGroupId(),
 		}
 	})
 	return groupControllerInstance
@@ -34,7 +45,7 @@ func (gc *groupController) AddGroup(req *dtos.AddGroupRequestDto) *dtos.AddGroup
 	if err != nil {
 		return dtos.NewAddGroupResponseDto().SetErr(err)
 	}
-	group := gc.groupService.CreateGroup(201, req.GetName(), req.GetDescription(), user)
+	group := gc.groupService.CreateGroup(gc.groupIdGenerator(), req.GetName(), req.GetDescription(), user)
 	return dtos.NewAddGroupResponseDtoWithGroup(group)
 
 }
