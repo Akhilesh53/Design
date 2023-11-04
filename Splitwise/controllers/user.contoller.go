@@ -41,3 +41,12 @@ func (uc *userContoller) UpdateUser(req *dtos.UpdateUserRequestDto) *dtos.Regist
 	}
 	return dtos.NewRegisterUserResponseDtoWithUser(user)
 }
+
+func (uc *userContoller) GetUser(req *dtos.GetUserRequestDto) *dtos.RegisterUserResponseDto {
+	userId, _ := strconv.Atoi(req.GetUserId())
+	user, err := uc.userservice.GetUser(userId)
+	if err != nil {
+		return dtos.NewRegisterUserResponseDto().SetErr(err)
+	}
+	return dtos.NewRegisterUserResponseDtoWithUser(user)
+}

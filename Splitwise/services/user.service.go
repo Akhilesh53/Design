@@ -6,7 +6,7 @@ import (
 	"sync"
 )
 
-var once sync.Once
+var userServiceOnce sync.Once
 var userRepo repository.UserRepository
 var userServiceInstance *UserService
 
@@ -19,7 +19,7 @@ type UserService struct {
 }
 
 func NewUserService() *UserService {
-	once.Do(func() {
+	userServiceOnce.Do(func() {
 		userServiceInstance = &UserService{
 			userRepository: userRepo,
 		}
@@ -34,4 +34,8 @@ func (us *UserService) RegisterUser(id int, name, pwd, phone string) entities.IU
 
 func (us *UserService) UpdateUser(id int, pwd string) (entities.IUser, error) {
 	return us.userRepository.UpdateUserByParam("password", pwd, id)
+}
+
+func (us *UserService) GetUser(id int) (entities.IUser,error) {
+	return us.userRepository.GetUser(id)
 }

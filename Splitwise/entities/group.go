@@ -33,6 +33,15 @@ type group struct {
 	lastModified time.Time
 }
 
+func NewDefaultGroup() IGroup {
+	return &group{
+		participants: make([]IUser, 0),
+		admins:       make([]IUser, 0),
+		expenses:     make([]IExpense, 0),
+		createdAt:    time.Now(),
+	}
+}
+
 func NewGroup(id int, name string, description string, createdBy IUser) IGroup {
 	return &group{
 		id:           id,
