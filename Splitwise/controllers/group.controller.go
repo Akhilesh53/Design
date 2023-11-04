@@ -73,3 +73,12 @@ func (gc *groupController) AddMember(req *dtos.AddMemberGroupRequestDto) *dtos.A
 	}
 	return dtos.NewAddGroupResponseDtoWithGroup(resGroup)
 }
+
+func (gc *groupController) GetGroupsForUser(req *dtos.GetUserGroupsRequestDto) *dtos.GetUserGroupsResponseDto {
+	userId, _ := strconv.Atoi(req.GetUserId())
+	groups, err := gc.groupService.GetGroupsForUser(userId)
+	if err != nil {
+		return dtos.NewGetUserGroupsResponseDto().SetErr(err)
+	}
+	return dtos.NewGetUserGroupsResponseDtoWithGroups(groups)
+}

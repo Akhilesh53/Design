@@ -45,3 +45,19 @@ func (gs *GroupService) AddMember(group entities.IGroup, user entities.IUser) (e
 	gs.groupParticipantsRepository.AddMemberToGroup(group.GetId(), user.GetId())
 	return group, nil
 }
+
+func (gs *GroupService) GetGroupsForUser(userId int) ([]entities.IGroup, error) {
+	groupIds, err := gs.groupParticipantsRepository.GetGroupIdsForUserId(userId)
+	if err != nil {
+		return nil, err
+	}
+	groups := make([]entities.IGroup, 0)
+	for _, groupId := range groupIds {
+		group, err := gs.groupRepository.GetGroup(groupId)
+		if err != nil {
+			return nil, err
+		}
+		groups = append(groups, group)
+	}
+	return groups, nil
+}
