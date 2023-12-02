@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"pattern/vaccinationsystem/entities"
-	"pattern/vaccinationsystem/services"
+	"pattern/VaccinationSystem/entities"
+	"pattern/VaccinationSystem/services"
 
 	"google.golang.org/genproto/googleapis/type/date"
 )
@@ -14,7 +14,7 @@ func main() {
 	vcService := services.NewVCService()
 	bookingService := services.NewBookingService()
 
-	entryDate := date.Date{
+	entryDate := &date.Date{
 		Year:  2023,
 		Month: 11,
 		Day:   1,
@@ -24,13 +24,11 @@ func main() {
 	vc1 := entities.NewVaccinationCentre(101, "Kolkata", "Kolkata district VC address")
 	vc2 := entities.NewVaccinationCentre(102, "Noida", "Noida district VC address")
 
-	vc1.SetCapacityForADay(&entryDate, 100)
-	vc2.SetCapacityForADay(&entryDate, 100)
+	vc1.SetCapacityForADay(entryDate.String(), 100)
+	vc2.SetCapacityForADay(entryDate.String(), 100)
 
 	vcService.AddVC(vc2)
 	vcService.AddVC(vc1)
-
-	fmt.Println(vc1.GetCapacityForADay(&entryDate))
 
 	const printStr = `
 	   1. Register User
@@ -62,24 +60,24 @@ func main() {
 			fmt.Println("Enter Name")
 			fmt.Scanln(&name)
 
-			fmt.Println("Enter Year")
+			fmt.Println("Enter DOB Year")
 			fmt.Scanln(&year)
 
-			fmt.Println("Enter Month")
+			fmt.Println("Enter DOB Month")
 			fmt.Scanln(&month)
 
-			fmt.Println("Enter Day")
+			fmt.Println("Enter DOB Day")
 			fmt.Scanln(&day)
 
 			fmt.Println("Enter isVaccinated")
 			fmt.Scanln(&isVaccinated)
 
-			dob := date.Date{
+			dob := &date.Date{
 				Year:  year,
 				Month: month,
 				Day:   day,
 			}
-			userService.AddUser(userId, name, &dob, isVaccinated)
+			userService.AddUser(userId, name, dob, isVaccinated)
 
 			fmt.Println("User Added with id", userId, "name", name, "dob", dob.String(), "isVaccinated", isVaccinated)
 
@@ -93,16 +91,16 @@ func main() {
 			fmt.Println("Enter District")
 			fmt.Scanln(&district)
 
-			fmt.Println("Enter Year")
+			fmt.Println("Enter BookingDate Year")
 			fmt.Scanln(&year)
 
-			fmt.Println("Enter Month")
+			fmt.Println("Enter BookingDate  Month")
 			fmt.Scanln(&month)
 
-			fmt.Println("Enter Day")
+			fmt.Println("Enter BookingDate Day")
 			fmt.Scanln(&day)
 
-			bookingDate := date.Date{
+			bookingDate := &date.Date{
 				Year:  year,
 				Month: month,
 				Day:   day,
@@ -112,9 +110,8 @@ func main() {
 
 			fmt.Println(len(allVC))
 			for _, vc := range allVC {
-				fmt.Println("Vaccination Centre Available ::", vc, vc.GetBookingsForADay(&bookingDate), bookingDate)
-				if vc.GetCapacityForADay(&bookingDate) > 0 {
-					fmt.Println("Vaccination Centre Available ::", vc.GetId(), vc.GetDistrict(), vc.GetAddress())
+				if vc.GetCapacityForADay(bookingDate.String()) > 0 {
+					fmt.Println("Vaccination Centre Available ::", vc.GetId(), vc.GetDistrict()," having slots ", vc.GetCapacityForADay(bookingDate.String()))
 				}
 			}
 
@@ -129,22 +126,22 @@ func main() {
 			fmt.Println("Enter User Id")
 			fmt.Scanln(&userId)
 
-			fmt.Println("Enter District")
+			fmt.Println("Enter Vaccination Centre District")
 			fmt.Scanln(&district)
 
-			fmt.Println("Enter Year")
+			fmt.Println("Enter BookingDate Year")
 			fmt.Scanln(&year)
 
-			fmt.Println("Enter Month")
+			fmt.Println("Enter BookingDate Month")
 			fmt.Scanln(&month)
 
-			fmt.Println("Enter Day")
+			fmt.Println("Enter BookingDate Day")
 			fmt.Scanln(&day)
 
-			fmt.Println("Enter VC Id")
+			fmt.Println("Enter Vaccination Centre Id")
 			fmt.Scanln(&vcId)
 
-			bookingDate := date.Date{
+			bookingDate := &date.Date{
 				Year:  year,
 				Month: month,
 				Day:   day,
@@ -173,11 +170,12 @@ func main() {
 
 			for _, vc := range allVC {
 				if vc.GetId() == vcId {
-					if vc.GetCapacity()[&bookingDate] > 0 {
-						booking := entities.NewBooking(1, user, vc, &bookingDate)
+					if vc.GetCapacityForADay(bookingDate.String()) > 0 {
+						booking := entities.NewBooking(1, user, vc, bookingDate)
 						bookingService.AddBooking(booking.GetId(), booking.GetDate(), booking.GetIUser(), booking.GetIVC())
-						user.AddBoookingForADay(&bookingDate, booking)
-						vc.AddBookingForADay(&bookingDate, user)
+						user.AddBoookingForADay(bookingDate.String(), booking)
+						vc.AddBookingForADay(bookingDate.String(), user)
+						fmt.Println("Slot booked for user: ", user.GetName(), " for date: ", bookingDate.String())
 					} else {
 						fmt.Println("No slot available")
 						continue

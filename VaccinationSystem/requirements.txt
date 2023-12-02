@@ -1,11 +1,12 @@
-Vaccination Booking ssystem
+Vaccination Booking system
+================================================================
 
-Create a Vaccination centre. A VC should have a fixed capapcity for nay particular day.
-User can see all the VC for a district.
-User can book a vaccinnation centre for a particular day.
-if user has already booked some slot/ if user is already vaccinated , he cannot book further.
-On the date of booking, user should be above 18.
-Console application.
+- Create a Vaccination centre. A VC should have a fixed capapcity for nay particular day.
+- User can see all the VC for a district.
+- User can book a vaccinnation centre for a particular day.
+- if user has already booked some slot/ if user is already vaccinated , he cannot book further.
+- On the date of booking, user should be above 18.
+- Console application.
 
 
 Entities:
@@ -31,7 +32,4 @@ Booking{
     VC
     date
 }
-
-
-The current code is nor propely working. Will update it soon.
 

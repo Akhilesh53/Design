@@ -2,34 +2,32 @@ package entities
 
 import (
 	"errors"
-
-	"google.golang.org/genproto/googleapis/type/date"
 )
 
 type IVC interface {
 	GetId() int
 	GetDistrict() string
 	GetAddress() string
-	GetBookingsForADay(bookingDate *date.Date) []IUser
-	GetBookings() map[*date.Date][]IUser
-	GetCapacityForADay(bookingDate *date.Date) int
-	GetCapacity() map[*date.Date]int
-	AddBookingForADay(bookingDate *date.Date, booking IUser) error
-	RemoveBookingForADay(bookingDate *date.Date, booking IUser) error
+	GetBookingsForADay(bookingDate string) []IUser
+	GetBookings() map[string][]IUser
+	GetCapacityForADay(bookingDate string) int
+	GetCapacity() map[string]int
+	AddBookingForADay(bookingDate string, booking IUser) error
+	RemoveBookingForADay(bookingDate string, booking IUser) error
 	SetId(id int) IVC
 	SetDistrict(district string) IVC
 	SetAddress(address string) IVC
-	SetBookings(bookings map[*date.Date][]IUser) IVC
-	SetCapacity(capacity map[*date.Date]int) IVC
-	SetCapacityForADay(bookingDate *date.Date, capacity int) IVC
+	SetBookings(bookings map[string][]IUser) IVC
+	SetCapacity(capacity map[string]int) IVC
+	SetCapacityForADay(bookingDate string, capacity int) IVC
 }
 
 type vaccinationCentre struct {
 	id       int
 	district string
 	address  string
-	bookings map[*date.Date][]IUser
-	capacity map[*date.Date]int
+	bookings map[string][]IUser
+	capacity map[string]int
 }
 
 func NewVaccinationCentre(id int, district string, address string) IVC {
@@ -37,8 +35,8 @@ func NewVaccinationCentre(id int, district string, address string) IVC {
 		id:       id,
 		district: district,
 		address:  address,
-		bookings: make(map[*date.Date][]IUser),
-		capacity: make(map[*date.Date]int),
+		bookings: make(map[string][]IUser),
+		capacity: make(map[string]int),
 	}
 }
 
@@ -54,23 +52,23 @@ func (vc *vaccinationCentre) GetAddress() string {
 	return vc.address
 }
 
-func (vc *vaccinationCentre) GetBookingsForADay(bookingDate *date.Date) []IUser {
+func (vc *vaccinationCentre) GetBookingsForADay(bookingDate string) []IUser {
 	return vc.bookings[bookingDate]
 }
 
-func (vc *vaccinationCentre) GetBookings() map[*date.Date][]IUser {
+func (vc *vaccinationCentre) GetBookings() map[string][]IUser {
 	return vc.bookings
 }
 
-func (vc *vaccinationCentre) GetCapacityForADay(bookingDate *date.Date) int {
+func (vc *vaccinationCentre) GetCapacityForADay(bookingDate string) int {
 	return vc.capacity[bookingDate]
 }
 
-func (vc *vaccinationCentre) GetCapacity() map[*date.Date]int {
+func (vc *vaccinationCentre) GetCapacity() map[string]int {
 	return vc.capacity
 }
 
-func (vc *vaccinationCentre) AddBookingForADay(bookingDate *date.Date, booking IUser) error {
+func (vc *vaccinationCentre) AddBookingForADay(bookingDate string, booking IUser) error {
 	if vc.capacity[bookingDate] == 0 {
 		return errors.New("No capacity for the given date")
 	}
@@ -79,7 +77,7 @@ func (vc *vaccinationCentre) AddBookingForADay(bookingDate *date.Date, booking I
 	return nil
 }
 
-func (vc *vaccinationCentre) RemoveBookingForADay(bookingDate *date.Date, booking IUser) error {
+func (vc *vaccinationCentre) RemoveBookingForADay(bookingDate string, booking IUser) error {
 	if _, ok := vc.bookings[bookingDate]; ok {
 		delete(vc.bookings, bookingDate)
 	}
@@ -101,17 +99,17 @@ func (vc *vaccinationCentre) SetAddress(address string) IVC {
 	return vc
 }
 
-func (vc *vaccinationCentre) SetBookings(bookings map[*date.Date][]IUser) IVC {
+func (vc *vaccinationCentre) SetBookings(bookings map[string][]IUser) IVC {
 	vc.bookings = bookings
 	return vc
 }
 
-func (vc *vaccinationCentre) SetCapacity(capacity map[*date.Date]int) IVC {
+func (vc *vaccinationCentre) SetCapacity(capacity map[string]int) IVC {
 	vc.capacity = capacity
 	return vc
 }
 
-func (vc *vaccinationCentre) SetCapacityForADay(bookingDate *date.Date, capacity int) IVC {
+func (vc *vaccinationCentre) SetCapacityForADay(bookingDate string, capacity int) IVC {
 	vc.capacity[bookingDate] = capacity
 	return vc
 }

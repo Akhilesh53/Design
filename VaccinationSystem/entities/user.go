@@ -11,15 +11,15 @@ type IUser interface {
 	GetName() string
 	GetDob() *date.Date
 	GetIsVaccinated() bool
-	GetBookingsForADay(bookingDate *date.Date) IBooking
-	GetBookings() map[*date.Date]IBooking
-	AddBoookingForADay(bookingDate *date.Date, booking IBooking) error
-	RemoveBookingForADay(bookingDate *date.Date, booking IBooking) error
+	GetBookingsForADay(string) IBooking
+	GetBookings() map[string]IBooking
+	AddBoookingForADay(bookingDate string, booking IBooking) error
+	RemoveBookingForADay(bookingDate string, booking IBooking) error
 	SetId(id int) IUser
 	SetName(name string) IUser
 	SetDob(dob *date.Date) IUser
 	SetIsVaccinated(isVaccinated bool) IUser
-	SetBookings(bookings map[*date.Date]IBooking) IUser
+	SetBookings(bookings map[string]IBooking) IUser
 }
 
 type user struct {
@@ -27,10 +27,10 @@ type user struct {
 	name         string
 	dob          *date.Date
 	isVaccinated bool
-	bookings     map[*date.Date]IBooking
+	bookings     map[string]IBooking
 }
 
-func NewUser(id int, name string, dob *date.Date, isVaccinated bool, bookings map[*date.Date]IBooking) IUser {
+func NewUser(id int, name string, dob *date.Date, isVaccinated bool, bookings map[string]IBooking) IUser {
 	return &user{
 		id:           id,
 		name:         name,
@@ -56,27 +56,27 @@ func (u *user) GetIsVaccinated() bool {
 	return u.isVaccinated
 }
 
-func (u *user) GetBookingsForADay(bookingDate *date.Date) IBooking {
+func (u *user) GetBookingsForADay(bookingDate string) IBooking {
 	return u.bookings[bookingDate]
 }
 
-func (u *user) GetBookings() map[*date.Date]IBooking {
+func (u *user) GetBookings() map[string]IBooking {
 	return u.bookings
 }
 
-func (u *user) AddBoookingForADay(bookingDate *date.Date, booking IBooking) error {
+func (u *user) AddBoookingForADay(bookingDate string, booking IBooking) error {
 	if _, ok := u.bookings[bookingDate]; ok {
 		u.bookings[bookingDate] = booking
 		return nil
 	}
-	return errors.New("Booking date not found")
+	return errors.New("booking date not found")
 }
 
-func (u *user) RemoveBookingForADay(bookingDate *date.Date, booking IBooking) error {
+func (u *user) RemoveBookingForADay(bookingDate string, booking IBooking) error {
 	if _, ok := u.bookings[bookingDate]; ok {
 		delete(u.bookings, bookingDate)
 	}
-	return errors.New("Booking date not found")
+	return errors.New("booking date not found")
 }
 
 func (u *user) SetId(id int) IUser {
@@ -99,7 +99,7 @@ func (u *user) SetIsVaccinated(isVaccinated bool) IUser {
 	return u
 }
 
-func (u *user) SetBookings(bookings map[*date.Date]IBooking) IUser {
+func (u *user) SetBookings(bookings map[string]IBooking) IUser {
 	u.bookings = bookings
 	return u
 }

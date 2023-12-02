@@ -1,8 +1,8 @@
 package services
 
 import (
-	"pattern/vaccinationsystem/dao"
-	"pattern/vaccinationsystem/entities"
+	"pattern/VaccinationSystem/dao"
+	"pattern/VaccinationSystem/entities"
 
 	"google.golang.org/genproto/googleapis/type/date"
 )
@@ -18,10 +18,9 @@ func NewUserService() *UserService {
 }
 
 func (us *UserService) AddUser(userId int, name string, dob *date.Date, isVaccinated bool) {
-	user := entities.NewUser(userId, name, dob, isVaccinated, make(map[*date.Date]entities.IBooking))
+	user := entities.NewUser(userId, name, dob, isVaccinated, make(map[string]entities.IBooking))
 	us.userDao.AddUser(user)
 }
-
 
 func (us *UserService) GetUser(userId int) entities.IUser {
 	return us.userDao.GetUser(userId)
@@ -30,4 +29,3 @@ func (us *UserService) GetUser(userId int) entities.IUser {
 func (us *UserService) RemoveUser(userId int) {
 	us.userDao.RemoveUser(userId)
 }
-

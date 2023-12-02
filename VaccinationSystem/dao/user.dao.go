@@ -1,6 +1,6 @@
 package dao
 
-import "pattern/vaccinationsystem/entities"
+import "pattern/VaccinationSystem/entities"
 
 type UserDao struct {
 	userDao map[int]entities.IUser
