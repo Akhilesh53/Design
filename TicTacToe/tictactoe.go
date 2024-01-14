@@ -2,9 +2,10 @@ package tictactoe
 
 import (
 	"fmt"
-	"pattern/TicTacToe/models"
+	"pattern/TicTacToe/V1/models"
 )
 
+//for v1
 func CallTicTacToe() {
 	game, err := models.InitialiseGame()
 	if err != nil {
@@ -13,3 +14,4 @@ func CallTicTacToe() {
 	}
 	game.StartGame()
 }
+
