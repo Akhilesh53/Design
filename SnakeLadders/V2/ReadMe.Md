@@ -12,8 +12,6 @@ UseCase
 10) Game starts from block 1 and The player who reached 100th  block first, wins.
 11) Dice value will be from 1-6.
 12) A board has number in zig zag fashion like first 1-10 (from left to right) and then 11-20 (right to left) and so on.
-13) For every win game, user will get 50 points as reward.
-14) User need to be registered to play, check reward or check winner. 
 
 
 
@@ -21,3 +19,5 @@ User can give 2 inputs:
 Play Game    // Launch game
 Check Winner for gameId
 GetTotalReward   // Get the total reward by entering user id
+
+Note: There is some pointer problem, not able to figure out till now. Will update it once it get resolved

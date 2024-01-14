@@ -7,7 +7,7 @@ type Player struct {
 }
 
 func NewPlayer(name string, color Color) *Player {
-	return &Player{name: name, color: color}
+	return &Player{name: name, color: color, position: NewCell(0)}
 }
 
 func NewDefaultPlayer(name string) *Player {
@@ -39,16 +39,4 @@ func (p *Player) GetPosition() *Cell {
 func (p *Player) SetPosition(cell *Cell) *Player {
 	p.position = cell
 	return p
-}
-
-func (p *Player) Move(end *Cell) bool {
-	if p.canMove(end) {
-		p.SetPosition(end)
-		return true
-	}
-	return false
-}
-
-func (p *Player) canMove(end *Cell) bool {
-	return end.GetCellNumber() <= 100
 }

@@ -2,25 +2,28 @@ package main
 
 import (
 	"fmt"
-	"pattern/SnakeLadders/V1/controllers"
-	"pattern/SnakeLadders/V1/models"
+	"pattern/SnakeLadders/V2/controllers"
+	"pattern/SnakeLadders/V2/models"
 )
 
 func main() {
 	gc := controllers.GetGameContoller()
 
-	gc.LaunchGame()
+	players := make([]*models.Player, 0)
+	players = append(players, models.NewPlayer("Akhilesh", models.RED))
+	players = append(players, models.NewPlayer("Mahajan", models.BLUE))
+	if err := gc.LaunchGame(players); err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	//Add players to the game
-	gc.AddPlayer(models.NewPlayer("Akhilesh", models.RED))
-	gc.AddPlayer(models.NewPlayer("Mahajan", models.BLUE))
-
+	gc.PrintBoard()
 	gameContinue := true
 
 	for gameContinue {
 		currPlayer := gc.GetCurrPlayerTurn()
 
-		fmt.Println("Enter `r` to roll the dice")
+		fmt.Println("Enter `r` to roll the dice for player turn ", currPlayer.GetName(), currPlayer.GetPosition(), currPlayer.GetPosition().GetCellNumber())
 		var inp string
 		if _, err := fmt.Scan(&inp); err != nil {
 			fmt.Println(err)
@@ -28,10 +31,12 @@ func main() {
 		}
 		diceVal := gc.RollDice()
 
-		start := currPlayer.GetPosition()
-		start.SetCellNumber(start.GetCellNumber() + diceVal)
-
-		if gc.MakeMove(currPlayer, start) {
+		start := currPlayer.GetPosition().GetCellNumber()
+		fmt.Println(start + diceVal)
+		targetCell := gc.GetCellByCellNumber(start + diceVal)
+		currPlayer.SetPosition(targetCell)
+		fmt.Println(currPlayer.GetPosition().GetCellNumber())
+		if gc.IsWinningMove(currPlayer) {
 			fmt.Println(currPlayer.GetName(), "wins the game")
 			gameContinue = false
 		}
