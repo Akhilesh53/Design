@@ -1,5 +1,5 @@
 package classes
 
-type BotPlayingStratrgy interface {
+type BotPlayingStrategy interface {
 	MakeNextMove(board Board, symbol Symbol) Move
 }

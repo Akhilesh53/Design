@@ -5,7 +5,7 @@ type Board struct {
 	board     [][]Cell
 }
 
-func NewBoard(dimension int) *Board {
+func NewBoardWithDimension(dimension int) *Board {
 	board := make([][]Cell, dimension)
 	for i := 0; i < dimension; i++ {
 		board[i] = make([]Cell, dimension)

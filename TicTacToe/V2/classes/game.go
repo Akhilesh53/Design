@@ -12,9 +12,12 @@ type Game struct {
 	winner               IPlayer
 }
 
-//todo:
+// todo:
 // to build a game, we need to build / set attributes for different classes.
 // that can be easily done by builder design pattern
+func (game *Game) GetGameStatus() GameStatus {
+	return game.status
+}
 
 // define a builder object with the same attributes as concrete class
 type GameBuilder struct {

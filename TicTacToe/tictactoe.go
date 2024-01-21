@@ -3,7 +3,7 @@ package tictactoe
 import (
 	"fmt"
 	"pattern/TicTacToe/V1/models"
-	"pattern/TicTacToe/V2/classes"
+	"pattern/TicTacToe/V2/controllers"
 )
 
 // for v1
@@ -20,11 +20,9 @@ func CallTicTacToe() {
 
 func TicTacToeApplicationCode() {
 
-	game, err := classes.NewGameBuilder().
-		WithBoard(classes.NewBoard(3)).
-		AddPlayer(classes.GetHumanPlayer(classes.CROSS)).
-		Build()
-
+	gameController := controllers.MakeGameContoller()
+	// take necessary params while creating game like dimension, list of players
+	game, err := gameController.CreateGame()
 	if err != nil {
 		fmt.Println(err)
 		return

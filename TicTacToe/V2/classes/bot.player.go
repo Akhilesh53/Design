@@ -1,8 +1,10 @@
 package classes
 
 type BotPlayer struct {
-	playerType PlayerType
-	symbol     Symbol
+	User
+	playingStrategy BotPlayingStrategy
+	playerType      PlayerType
+	symbol          Symbol
 }
 
 func (player *BotPlayer) GetPlayerType() PlayerType {
@@ -13,14 +15,23 @@ func (player *BotPlayer) GetPlayerSymbol() Symbol {
 	return player.symbol
 }
 
-func (player *BotPlayer) getPlayer(symbol Symbol) IPlayer {
+func (player *BotPlayer) GetBotPlayingStrategy() BotPlayingStrategy {
+	return player.playingStrategy
+}
+ 
+func (player *BotPlayer) getPlayer(symbol Symbol) *BotPlayer {
 	return &BotPlayer{
 		playerType: HUMAN,
 		symbol:     symbol,
 	}
 }
 
-func GetBotPlayer(symbol Symbol) IPlayer {
+func (player *BotPlayer) WithStrategy(strategy BotPlayingStrategy) *BotPlayer {
+	player.playingStrategy = strategy
+	return player
+}
+
+func GetBotPlayer(symbol Symbol) *BotPlayer {
 	h := BotPlayer{}
 	return h.getPlayer(symbol)
 }
