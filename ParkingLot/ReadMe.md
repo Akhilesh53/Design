@@ -40,4 +40,3 @@ Functionalities Implemented
 ================================================================
 - Generate Ticket On Entry
 - Generate Bill on Exit
-- Store respective details

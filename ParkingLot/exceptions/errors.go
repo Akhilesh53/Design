@@ -18,4 +18,19 @@ var (
 		errorMessage: "ticket generated successfully",
 		errorCode:    "PL-001-S",
 	}
+	ErrNoTicketFound = Error{
+		statusCode:   500,
+		errorMessage: "no ticket found",
+		errorCode:    "PL-002-F",
+	}
+	ErrGeneratingBillFailure = Error{
+		statusCode:   500,
+		errorMessage: "error generating bill",
+		errorCode:    "PL-003-F",
+	}
+	ErrGeneratingBillSuccess = Error{
+		statusCode:   200,
+		errorMessage: "bill generated successfully",
+		errorCode:    "PL-003-S",
+	}
 )
