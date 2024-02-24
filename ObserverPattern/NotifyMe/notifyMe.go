@@ -44,4 +44,5 @@ func CallNotifyMe() {
 	iphoneStockObserver.Add(alterObserver2)
 
 	iphoneStockObserver.SetData(12)
+	iphoneStockObserver.Notify()
 }
