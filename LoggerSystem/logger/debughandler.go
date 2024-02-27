@@ -61,7 +61,7 @@ func (i *DebugHandler) RemoveSinkObserver(observer ISinkObserver) {
 	i.debugObservers = newList
 }
 
-func (i *DebugHandler) NotifyInkObservers(mssg string) {
+func (i *DebugHandler) NotifySinkObservers(mssg string) {
 	for _, obs := range i.debugObservers {
 		obs.Update(mssg)
 	}

@@ -6,14 +6,8 @@ import (
 
 type ILogHandler interface {
 	GetNext() ILogHandler
-	SetNext(next ILogHandler)
-	GetLevel() string
-	SetLevel(level LogType)
 	LogMessage(logType LogType, msg string)
-
-	AddSinkObserver(ISinkObserver)
-	RemoveSinkObserver(ISinkObserver)
-	NotifyInkObservers(mssg string)
+	NotifySinkObservers(mssg string)
 }
 
 func GetLogHandler(logType LogType, next ILogHandler) (ILogHandler, error) {
@@ -27,7 +21,7 @@ func GetLogHandler(logType LogType, next ILogHandler) (ILogHandler, error) {
 
 func displayMessage(h ILogHandler, msg string) {
 	//fmt.Println(h.GetLevel(), " ", msg)
-	h.NotifyInkObservers(msg)
+	h.NotifySinkObservers(msg)
 }
 
 func doChaining() ILogHandler {

@@ -61,7 +61,7 @@ func (i *ErrorHandler) RemoveSinkObserver(observer ISinkObserver) {
 	i.errorObservers = newList
 }
 
-func (i *ErrorHandler) NotifyInkObservers(mssg string) {
+func (i *ErrorHandler) NotifySinkObservers(mssg string) {
 	for _, obs := range i.errorObservers {
 		obs.Update(mssg)
 	}
