@@ -27,7 +27,7 @@ func NewUserController() *UserController {
 
 // CreateUser function with input as user dto
 func (uc *UserController) CreateUser(createUserDto dtos.CreateUserDto) (*entities.User, error) {
-	return uc.userService.CreateUser(createUserDto)
+	return uc.userService.CreateUser(createUserDto.GetName(), createUserDto.GetEmail())
 }
 
 // GetUser function with input as GetUserDto

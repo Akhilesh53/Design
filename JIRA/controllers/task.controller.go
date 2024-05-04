@@ -27,7 +27,7 @@ func NewTaskController() *TaskController {
 
 // CreateTask function with input as task dto
 func (tc *TaskController) CreateTask(createTaskDto dtos.CreateTaskDto) (*entities.Task, error) {
-	return tc.taskService.CreateTask(createTaskDto)
+	return tc.taskService.CreateTask(createTaskDto.GetTitle(), createTaskDto.GetDescription(), createTaskDto.GetCreatedAt(), createTaskDto.GetCreatedBy(), createTaskDto.GetTaskType())
 }
 
 // GetTask function with input as GetTaskDto

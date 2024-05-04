@@ -3,7 +3,9 @@ package services
 import (
 	"pattern/JIRA/dtos"
 	"pattern/JIRA/entities"
+	"pattern/JIRA/repositories"
 	"sync"
+	"time"
 )
 
 var taskServiceOnce sync.Once
@@ -11,7 +13,7 @@ var taskService *TaskService
 
 // TaskService struct
 type TaskService struct {
-	taskRepository repositories.TaskRepository
+	taskRepository *repositories.TaskRepository
 }
 
 // NewTaskService function
@@ -25,8 +27,9 @@ func NewTaskService() *TaskService {
 }
 
 // CreateTask function with input as task dto
-func (ts *TaskService) CreateTask(createTaskDto dtos.CreateTaskDto) (*entities.Task, error) {
-	return ts.taskRepository.CreateTask(createTaskDto)
+func (ts *TaskService) CreateTask(title string, description string, createdAt time.Time, createdBy entities.User, taskType entities.TaskType) (*entities.Task, error) {
+	task := entities.NewTask(title, description, createdAt, createdBy, taskType)
+	return ts.taskRepository.CreateTask(task)
 }
 
 // GetTask function with input as GetTaskDto

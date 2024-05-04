@@ -3,6 +3,7 @@ package services
 import (
 	"pattern/JIRA/dtos"
 	"pattern/JIRA/entities"
+	"pattern/JIRA/repositories"
 	"sync"
 )
 
@@ -11,7 +12,7 @@ var sprintService *SprintService
 
 // SprintService struct
 type SprintService struct {
-	sprintRepository repositories.SprintRepository
+	sprintRepository *repositories.SprintRepository
 }
 
 // NewSprintService function
