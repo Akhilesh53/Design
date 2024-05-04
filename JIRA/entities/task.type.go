@@ -8,3 +8,7 @@ const (
 	IMPROVEMENT
 	STORY
 )
+
+func (tt TaskType) String() string {
+	return [...]string{"BUG", "FEATURE", "IMPROVEMENT", "STORY"}[tt]
+}

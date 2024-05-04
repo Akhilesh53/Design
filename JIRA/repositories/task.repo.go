@@ -51,3 +51,9 @@ func (r *TaskRepository) FindAll() []*entities.Task {
 func (r *TaskRepository) Delete(taskID uint16) {
 	delete(r.taskMap, taskID)
 }
+
+// UpdateTask function with input as task entity
+func (r *TaskRepository) UpdateTask(task *entities.Task) (*entities.Task, error) {
+	r.taskMap[task.GetTaskID()] = task
+	return task, nil
+}

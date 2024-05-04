@@ -92,3 +92,39 @@ func (gsd *GetSprintDto) SetSprintId(sprintId uint16) *GetSprintDto {
 	gsd.sprintId = sprintId
 	return gsd
 }
+
+// AddTaskToSprintDto
+type AddTaskToSprintDto struct {
+	sprintID uint16
+	taskID   uint16
+}
+
+// NewAddTaskToSprintDto
+func NewAddTaskToSprintDto(sprintID uint16, taskID uint16) *AddTaskToSprintDto {
+	return &AddTaskToSprintDto{
+		sprintID: sprintID,
+		taskID:   taskID,
+	}
+}
+
+// GetSprintID
+func (attd *AddTaskToSprintDto) GetSprintID() uint16 {
+	return attd.sprintID
+}
+
+// GetTaskID
+func (attd *AddTaskToSprintDto) GetTaskID() uint16 {
+	return attd.taskID
+}
+
+// SetSprintID
+func (attd *AddTaskToSprintDto) SetSprintID(sprintID uint16) *AddTaskToSprintDto {
+	attd.sprintID = sprintID
+	return attd
+}
+
+// SetTaskID
+func (attd *AddTaskToSprintDto) SetTaskID(taskID uint16) *AddTaskToSprintDto {
+	attd.taskID = taskID
+	return attd
+}

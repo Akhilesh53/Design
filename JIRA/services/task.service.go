@@ -1,7 +1,6 @@
 package services
 
 import (
-	"pattern/JIRA/dtos"
 	"pattern/JIRA/entities"
 	"pattern/JIRA/repositories"
 	"sync"
@@ -26,13 +25,44 @@ func NewTaskService() *TaskService {
 	return taskService
 }
 
-// CreateTask function with input as task dto
-func (ts *TaskService) CreateTask(title string, description string, createdAt time.Time, createdBy entities.User, taskType entities.TaskType) (*entities.Task, error) {
+func (ts *TaskService) CreateTask(title, description string, createdAt time.Time, createdBy entities.User, taskType entities.TaskType) (*entities.Task, error) {
 	task := entities.NewTask(title, description, createdAt, createdBy, taskType)
 	return ts.taskRepository.CreateTask(task)
 }
 
 // GetTask function with input as GetTaskDto
-func (ts *TaskService) GetTask(getTaskDto dtos.GetTaskDto) (*entities.Task, error) {
-	return ts.taskRepository.GetTask(getTaskDto.GetTaskId())
+func (ts *TaskService) GetTask(taskId uint16) (*entities.Task, error) {
+	return ts.taskRepository.GetTask(taskId)
+}
+
+func (ts *TaskService) AddAssignee(taskId uint16, assignee *entities.User) (*entities.Task, error) {
+	task, err := ts.taskRepository.GetTask(taskId)
+	if err != nil {
+		return nil, err
+	}
+	task.AddAssignee(*assignee)
+	return ts.taskRepository.UpdateTask(task)
+}
+
+func (ts *TaskService) ChangeTaskStatus(taskId uint16, status entities.TaskStatus) (*entities.Task, error) {
+	task, err := ts.taskRepository.GetTask(taskId)
+	if err != nil {
+		return nil, err
+	}
+	task.SetStatus(status)
+	return ts.taskRepository.UpdateTask(task)
+}
+
+// GetTasksByAssigneeDto
+func (ts *TaskService) GetTasksByAssignee(assigneeId uint16) ([]entities.Task, error) {
+	tasks := ts.taskRepository.FindAll()
+	assigneeTasks := make([]entities.Task, 0)
+	for _, task := range tasks {
+		for _, assignee := range task.GetAssignee() {
+			if assignee.GetUserID() == assigneeId {
+				assigneeTasks = append(assigneeTasks, *task)
+			}
+		}
+	}
+	return assigneeTasks, nil
 }

@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"errors"
-	"pattern/JIRA/dtos"
 	"pattern/JIRA/entities"
 	"sync"
 )
@@ -26,8 +25,7 @@ func NewSprintRepository() *SprintRepository {
 }
 
 // CreateSprint function with input as sprint dto
-func (r *SprintRepository) CreateSprint(createSprintDto dtos.CreateSprintDto) (*entities.Sprint, error) {
-	sprint := entities.NewSprint(createSprintDto.GetName(), createSprintDto.GetStartDate(), createSprintDto.GetEndDate(), createSprintDto.GetCreatedBy())
+func (r *SprintRepository) CreateSprint(sprint *entities.Sprint) (*entities.Sprint, error) {
 	return r.Save(sprint)
 }
 

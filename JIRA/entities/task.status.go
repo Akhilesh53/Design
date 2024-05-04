@@ -8,3 +8,7 @@ const (
 	COMPLETED
 	DISABLED
 )
+
+func (ts TaskStatus) String() string {
+	return [...]string{"OPEN", "IN_PROGRESS", "COMPLETED", "DISABLED"}[ts]
+}

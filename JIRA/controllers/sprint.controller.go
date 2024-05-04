@@ -26,11 +26,16 @@ func NewSprintController() *SprintController {
 }
 
 // CreateSprint function with input as sprint dto
-func (sc *SprintController) CreateSprint(createSprintDto dtos.CreateSprintDto) (*entities.Sprint, error) {
-	return sc.sprintService.CreateSprint(createSprintDto)
+func (sc *SprintController) CreateSprint(createSprintDto *dtos.CreateSprintDto) (*entities.Sprint, error) {
+	return sc.sprintService.CreateSprint(createSprintDto.GetName(), createSprintDto.GetStartDate(), createSprintDto.GetEndDate(), createSprintDto.GetCreatedBy())
 }
 
 // GetSprint function with input as GetSprintDto
-func (sc *SprintController) GetSprint(getSprintDto dtos.GetSprintDto) (*entities.Sprint, error) {
-	return sc.sprintService.GetSprint(getSprintDto)
+func (sc *SprintController) GetSprint(getSprintDto *dtos.GetSprintDto) (*entities.Sprint, error) {
+	return sc.sprintService.GetSprint(getSprintDto.GetSprintID())
+}
+
+// / add task
+func (sc *SprintController) AddTaskToSprint(addTaskToSprintDto *dtos.AddTaskToSprintDto) (*entities.Sprint, error) {
+	return sc.sprintService.AddTaskToSprint(addTaskToSprintDto.GetSprintID(), addTaskToSprintDto.GetTaskID())
 }

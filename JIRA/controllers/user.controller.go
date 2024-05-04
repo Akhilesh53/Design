@@ -26,11 +26,11 @@ func NewUserController() *UserController {
 }
 
 // CreateUser function with input as user dto
-func (uc *UserController) CreateUser(createUserDto dtos.CreateUserDto) (*entities.User, error) {
+func (uc *UserController) CreateUser(createUserDto *dtos.CreateUserDto) (*entities.User, error) {
 	return uc.userService.CreateUser(createUserDto.GetName(), createUserDto.GetEmail())
 }
 
 // GetUser function with input as GetUserDto
-func (uc *UserController) GetUser(getUserDto dtos.GetUserDto) (*entities.User, error) {
-	return uc.userService.GetUser(getUserDto)
+func (uc *UserController) GetUser(getUserDto *dtos.GetUserDto) (*entities.User, error) {
+	return uc.userService.GetUser(getUserDto.GetUserID())
 }

@@ -4,6 +4,8 @@ Design a system like Jira. It should have the following functionalities :
 - Should be able to change the status of any task. 
 - User should be able to create any sprint. 
 - Should be able to add any task to sprint and remove from it. 
-- User should be able to print Delayed task Sprint details Tasks assigned to the user
+- User should be able to print Delayed task 
+- User should be able to print Sprint details 
+- User should be able to print Tasks assigned to the user.
 
 Reference: https://github.com/rjnitt/jira-fk/tree/master/src/main

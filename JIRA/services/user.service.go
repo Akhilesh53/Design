@@ -1,7 +1,6 @@
 package services
 
 import (
-	"pattern/JIRA/dtos"
 	"pattern/JIRA/entities"
 	"pattern/JIRA/repositories"
 	"sync"
@@ -32,6 +31,6 @@ func (us *UserService) CreateUser(name, email string) (*entities.User, error) {
 }
 
 // GetUser function with input as GetUserDto
-func (us *UserService) GetUser(getUserDto dtos.GetUserDto) (*entities.User, error) {
-	return us.userRepository.FindByID(getUserDto.GetUserID())
+func (us *UserService) GetUser(userid uint16) (*entities.User, error) {
+	return us.userRepository.FindByID(userid)
 }
