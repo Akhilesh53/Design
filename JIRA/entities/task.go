@@ -22,6 +22,7 @@ type Task struct {
 	createdAt   time.Time
 	taskType    TaskType
 	status      TaskStatus
+	dueDate     time.Time
 }
 
 func NewTask(title string, description string, createdAt time.Time, createdBy User, taskType TaskType) *Task {
